@@ -1,0 +1,9 @@
+# templated rc.conf.local
+#xdm_flags=
+{% for k,v in daemons.iteritems() %}
+{% if v != None %}
+{{k}}_flags="{{v}}"
+{% else %}
+{{k}}_flags=
+{% endif %}
+{% endfor %}

@@ -1,0 +1,35 @@
+# templated unbound.conf
+
+server:
+	interface: 127.0.0.1
+	interface: ::1
+	#do-ip6: no
+
+        logfile: "/log/unbound.log"
+        verbosity: 1
+        use-syslog: no
+        log-time-ascii: yes
+        log-queries: yes
+        val-log-level: 2
+
+	access-control: 0.0.0.0/0 refuse
+	access-control: 127.0.0.0/8 allow
+	access-control: ::0/0 refuse
+	access-control: ::1 allow
+
+	hide-identity: yes
+	hide-version: yes
+
+{% if enable_validation %}
+	auto-trust-anchor-file: "/var/unbound/db/root.key"
+{% endif %}
+
+
+remote-control:
+     control-enable: yes
+     control-interface: 127.0.0.1
+     control-port: 8953
+     server-key-file: "/var/unbound/etc/unbound_server.key"
+     server-cert-file: "/var/unbound/etc/unbound_server.pem"
+     control-key-file: "/var/unbound/etc/unbound_control.key"
+     control-cert-file: "/var/unbound/etc/unbound_control.pem"
