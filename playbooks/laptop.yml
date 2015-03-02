@@ -3,7 +3,7 @@
   gather_facts: no
   vars:
     - enable_validation: true
-    - release: 5.6
+    - release: snapshots
     - pkgs:
       - vim--no_x11
       - bash
@@ -42,13 +42,13 @@
       regexp='^'
       state=present
       insertafter=EOF
-      create=True 
+      create=True
   - name: install packages
     openbsd_pkg: name={{item}} state=present
     with_items: pkgs
   - name: configure rc.conf.local
     template: backup=yes dest=/etc/rc.conf.local owner=root mode=0644 src=templates/rc.conf.local.j2
-  - name: copy misc /etc files 
+  - name: copy misc /etc files
     copy: src=files/{{item}} dest=/etc/{{item}} backup=yes owner=root mode=0644
     with_items: [dhclient.conf, resolv.conf.tail]
   - name: create unbound log dir
