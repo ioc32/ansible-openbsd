@@ -30,6 +30,9 @@
         apmd: -A
         sensorsd:
         sndiod:
+    - user_files:
+        - src: files/xinitrc
+          dest: ~{{ansible_ssh_user}}/.xinitrc
   tasks:
   - name: get arch
     command: uname -m
@@ -43,6 +46,9 @@
       state=present
       insertafter=EOF
       create=True
+  - name: copy user files
+    copy: src={{item.src}} dest={{item.dest}} owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
+    with_items: user_files
   - name: install packages
     openbsd_pkg: name={{item}} state=present
     with_items: pkgs
